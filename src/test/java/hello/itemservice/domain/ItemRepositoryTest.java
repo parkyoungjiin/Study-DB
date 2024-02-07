@@ -11,26 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+@Transactional
 @SpringBootTest //@SpringBootApplication을 찾아서 설정을 사용함.
 class ItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
     
-    @Autowired
-    PlatformTransactionManager transactionManager;
-    TransactionStatus status;
-    @BeforeEach
-    void beforeEach(){
-        //실행 전 트랜잭션 시작.
-        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-    }
+//    @Autowired
+//    PlatformTransactionManager transactionManager;
+//    TransactionStatus status;
+//    @BeforeEach
+//    void beforeEach(){
+//        //실행 전 트랜잭션 시작.
+//        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+//    }
     @AfterEach
     void afterEach() {
         //MemoryItemRepository 의 경우 제한적으로 사용
@@ -38,7 +39,7 @@ class ItemRepositoryTest {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
         //트랜잭션 롤백
-        transactionManager.rollback(status);
+//        transactionManager.rollback(status);
 
     }
 
